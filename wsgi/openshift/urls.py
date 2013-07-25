@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-from meet.views import UserProfileDetailView
+from meet.views import UserProfileDetailView, dashboard
 
 urlpatterns = patterns('',
     # Examples:
@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 
     url(r'^users/(?P<slug>\w+)/$', UserProfileDetailView.as_view(), name="profile"), 
+    url(r'^dashboard/$', dashboard, name="dashboard"), 
 
     
     url(r'^admin/', include(admin.site.urls)),

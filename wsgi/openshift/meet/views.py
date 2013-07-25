@@ -1,11 +1,13 @@
 # Create your views here.
 from django.core.context_processors import csrf
 from meet.models import *
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.generic import DetailView
 #Django 1.5 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User #Django < 1.5
+from django.template import RequestContext
 
+### Login Views
 
 #@login_required
 def accountform(request):
@@ -29,3 +31,12 @@ class UserProfileDetailView(DetailView):
     UserProfile.objects.get_or_create(user=user)
    # Django >=1.5 UserProfile.objects.get_or_create(user=get_user_model())
     return user
+
+### Main views
+
+def dashboard(request):
+
+  user_profile = request.user.get_profile()
+  events=Event.objects.filter(attendee__usr_profile=user_profile)
+
+  return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )

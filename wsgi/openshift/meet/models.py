@@ -2,7 +2,7 @@ from django.db import models
 from django import forms
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-
+import datetime
 
 class UserProfile(models.Model):
   user=models.OneToOneField(User, primary_key=True)
@@ -12,8 +12,9 @@ class UserProfile(models.Model):
   image=models.ImageField(upload_to="/static/img/u", blank=True)
   
   def __unicode__(self):
-    return ' '.join([self.user.first_name,self.user.last_name])
-    #return self.user.full_name()
+    #return ' '.join([self.user.first_name,self.user.last_name])
+    return str(self.user)
+    #return self.user.get_full_name()
 
 
 class UserProfileForm(forms.ModelForm):
@@ -56,8 +57,8 @@ class Event(models.Model):
 
   name = models.CharField(max_length=140)
   version   = models.IntegerField(default=0)
-  start_date=models.DateTimeField('start time')
-  end_date=models.DateTimeField('end time')
+  start_date=models.DateTimeField('start time', auto_now_add = True)
+  end_date=models.DateTimeField('end time', auto_now_add = True)
   type_maj=models.CharField(max_length=1,choices=TYPE_MAJOR_CHOICES,default=PERSONAL)
   type_min=models.CharField(max_length=2,choices=TYPE_MINOR_CHOICES,default=SOCIAL)
   description= models.TextField()

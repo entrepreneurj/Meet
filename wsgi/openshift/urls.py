@@ -4,11 +4,12 @@ from django.core.urlresolvers import reverse
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-from meet.views import UserProfileDetailView, dashboard
+from meet.views import UserProfileDetailView, dashboard, home
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^$', 'openshift.views.home', name="home"),
+    # url(r'^$', 'openshift.views.home', name="home"),
+    url(r'^$', home, name="home"),
     # url(r'^openshift/', include('openshift.foo.urls')),
 #    url(r'^i$', 'meet.views.accountform', name='accountform'),
     url(r'^accounts/', include('registration.backends.simple.urls')),

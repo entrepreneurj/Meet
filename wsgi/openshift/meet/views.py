@@ -7,6 +7,12 @@ from django.views.generic import DetailView
 from django.contrib.auth.models import User #Django < 1.5
 from django.template import RequestContext
 
+
+
+
+def home(request):
+    #return render_to_response('home/home.html')
+        return render_to_response('splash.html',  context_instance=RequestContext(request))
 ### Login Views
 
 #@login_required

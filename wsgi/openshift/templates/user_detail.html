@@ -5,9 +5,34 @@
 {% if object.userprofile.image %}
 {% endif %}
 
-<div class="well">
-  <img style="float:left;" src="{{ object.userprofile.get_picture }}" />
-<h2>{{ object.userprofile.user.get_full_name}}</h2>
-  <div style="clear:both;"></div> 
+<div class="well row-fluid">
+
+  <div class="span3"> <img  src="{{ object.userprofile.get_picture }}" />
   </div>
+  <div class="profile-info span5">
+    <h2>{{ object.userprofile.user.get_full_name}}</h2>
+    <br>
+    <dl class="dl-horizontal">
+      <dt>Username</dt> 
+      <dd>{{ object.userprofile.user.username }}</dd>
+      <dt>City</dt> 
+      <dd>{{ object.userprofile.city }}</dd>
+      <dt>Country</dt> 
+      <dd>{{ object.userprofile.country }}</dd>
+    </dl>
+  </div>
+  <div class="span4">
+    <h3>Contact me:</h3>
+    <br>
+    <dl class="dl-horizontal">
+      <dt>Facebook</dt> 
+      <dd>j.a.l.letts</dd>
+      <dt>Twitter</dt> 
+      <dd>@jal08</dd>
+      <dt>tumblr</dt> 
+      <dd>genericfixture</dd>
+    </dl>
+  </div>
+
+</div>
 {% endblock %}

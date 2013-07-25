@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html style="height:100%;">
   <head>
     <title>MeetApp</title>
     {% block head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css" />
     {% endblock %}
   </head>
-  <body>
+  <body style="height:100%;">
     <header>
     {% block header %}
     <h1>MeetApp</h1>
     {% endblock %}
     </header>
     
-    <div class="row-fluid">
+    <div class="row-fluid" style="min-height:80%;">
       <div class="span2">{% block left-col %}{% endblock %}</div>
 
 

@@ -28,8 +28,8 @@
         </div><!-- /span8 -->
         <div class="span2">
           <h4> Host:</h4>
-          <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><h5>{{event.host}}<h5></a>
               <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><img style="margin-left:auto;margin-right:auto;width:90%;" src="{{ event.host.get_picture }}" /></a>
+          <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><h5>{{event.host}}<h5></a>
         </div>
       </div> <!-- /row-fluid -->
     </div> <!-- /well -->

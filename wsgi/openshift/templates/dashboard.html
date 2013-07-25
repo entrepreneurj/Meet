@@ -1,16 +1,6 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
 
 
-{% block head %}
-
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" />
-
-{% endblock %}
-
-
-
-{% block header %}
-{% endblock %}
 
 
 {% block content %}
@@ -19,9 +9,10 @@
 
 
   <div class="span8">
+    <h2>My meets</h2>
     {% for event in events %}
     <div class="well">
-      <div style="float:left;"><h2>{{ event.name }}</h2></div>
+      <div style="float:left;"><h3>{{ event.name }}</h3></div>
       <div style="float:right;"><span class="label label-success">Time until: {{event.start_date|timeuntil }}</span></div>
       <div style="clear:both;"></div>
       <hr>

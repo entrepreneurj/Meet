@@ -9,13 +9,19 @@ class UserProfile(models.Model):
   is_pro=models.BooleanField(default=False)
   city=models.CharField(max_length=50,blank=True)
   country=models.CharField(max_length=50,blank=True)
-  image=models.ImageField(upload_to="/static/img/u", blank=True)
+  image=models.ImageField(upload_to="static/img/u", blank=True)
   
   def __unicode__(self):
     #return ' '.join([self.user.first_name,self.user.last_name])
     return str(self.user)
     #return self.user.get_full_name()
 
+  def get_picture(self):
+    print self.image
+    if (self.image):
+      return self.image.url
+    else:
+      return "/static/img/u/placeholder-user-small.png"
 
 class UserProfileForm(forms.ModelForm):
   class Meta:
@@ -57,8 +63,8 @@ class Event(models.Model):
 
   name = models.CharField(max_length=140)
   version   = models.IntegerField(default=0)
-  start_date=models.DateTimeField('start time', auto_now_add = True)
-  end_date=models.DateTimeField('end time', auto_now_add = True)
+  start_date=models.DateTimeField('start time', default=datetime.datetime.now())
+  end_date=models.DateTimeField('end time', default=datetime.datetime.now)
   type_maj=models.CharField(max_length=1,choices=TYPE_MAJOR_CHOICES,default=PERSONAL)
   type_min=models.CharField(max_length=2,choices=TYPE_MINOR_CHOICES,default=SOCIAL)
   description= models.TextField()

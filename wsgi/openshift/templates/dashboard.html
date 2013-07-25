@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" />
+
+{% endblock %}
+
+
+
+{% block header %}
+{% endblock %}
+
+
+{% block content %}
+<div class="row-fluid">
+  <div class="span2"></div>
+
+
+  <div class="span8">
+    {% for event in events %}
+    <div class="well">
+      <div style="float:left;"><h2>{{ event.name }}</h2></div>
+      <div style="float:right;"><span class="label label-success">Time until: {{event.start_date|timeuntil }}</span></div>
+      <div style="clear:both;"></div>
+      <hr>
+      <div class="row-fluid">
+        <div class="span10">
+          {% ifequal event.start_date.date  event.end_date.date%}
+            
+          <p><strong>Date:</strong> {{ event.start_date.date }} </p>
+          <p><strong>Time:</strong> {{ event.start_date.time }} - {{ event.end_date.time }} </p>
+          {% else %}
+          <p><strong>Start Date:</strong> {{ event.start_date }}</p>
+          <p><strong>End Date:</strong> {{ event.end_date }}</p>
+          <p><strong>Duration: Duration</strong></p>
+            {% endifequal %}
+            
+            <strong>Description:</strong><br><br>
+            <p class="well" style="background-color:white;">{{ event.description }}</p>
+        </div><!-- /span8 -->
+        <div class="span2">
+          <h4> Host:</h4>
+          <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><h5>{{event.host}}<h5></a>
+              <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><img style="margin-left:auto;margin-right:auto;width:90%;" src="{{ event.host.get_picture }}" /></a>
+        </div>
+      </div> <!-- /row-fluid -->
+    </div> <!-- /well -->
+    {% endfor %}
+
+
+  </div>
+  <div class="span2"></div>
+
+
+</div>
+{% endblock %}

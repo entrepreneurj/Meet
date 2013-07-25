@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Steel Rumors</title>
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css" />
+ <title>MeetApp</title>
   {% block head %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css" />
   {% endblock %}
 </head>
 <body>
-<h1>Steel Rumors</h1>
-
+  <header>
+  {% block header %}
+  <h1>MeetApp</h1>
+  {% endblock %}
+  </header>
 {% block content %}
 {% endblock %}
 

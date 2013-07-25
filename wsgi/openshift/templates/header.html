@@ -21,9 +21,13 @@
       <div class="span4"><h1 class="text-center">MeetApp</h1></div>
       <div class="span4">
         <ul class="inline" style="height:auto;">
+          {% if user.is_authenticated %}
           <li class=""><a href="{% url dashboard %}">Dashboard</a></li>
           <li class=""><a href="{% url profile slug=user.username %}">Profile</a></li>
           <li class=""><a href="{% url profile slug=user.username %}">Friends</a></li>
+          {% else %}
+          <li class=""><a href="{% url registration_register %}">Sign Up</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>

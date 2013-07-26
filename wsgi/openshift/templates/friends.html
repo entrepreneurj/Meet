@@ -1,32 +1,30 @@
 {% extends "header.html" %}
 
 {% block content %}
-<h2>{{ object.username }}'s profile</h2>
+<h2>{{ user.username }}'s friends</h2>
 {% if object.userprofile.image %}
 {% endif %}
-
 <div>
   <ul class="nav nav-pills">
-    <li class="active"><a href="#">profile</a></li>
-    <li><a href="{% url friends slug=object.username %}">friends</a></li>
+    <li><a href="{% url profile slug=user.username %}">profile</a></li>
+    <li class="active"><a href="#">friends</a></li>
     <li><a href="#">events</a></li>
   </ul>
 </div>
-
+{% for friend in friends %}
 <div class="well row-fluid">
-
-  <div class="span3"> <img  src="{{ object.userprofile.get_picture }}" />
+  <div class="span3"><a href="{% url profile slug=friend.user.username %}" > <img  src="{{ friend.get_picture }}" /> </a>
   </div>
   <div class="profile-info span5">
-    <h2>{{ object.userprofile.user.get_full_name}}</h2>
+    <h2>{{ friend.user.get_full_name}}</h2>
     <br>
     <dl class="dl-horizontal">
       <dt>Username</dt> 
-      <dd>{{ object.userprofile.user.username }}</dd>
+      <dd>{{ friend.user.username }}</dd>
       <dt>City</dt> 
-      <dd>{{ object.userprofile.city }}</dd>
+      <dd>{{ friend.city }}</dd>
       <dt>Country</dt> 
-      <dd>{{ object.userprofile.country }}</dd>
+      <dd>{{ friend.country }}</dd>
     </dl>
   </div>
   <div class="span4">
@@ -43,4 +41,6 @@
   </div>
 
 </div>
+
+{% endfor %}
 {% endblock %}

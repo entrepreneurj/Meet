@@ -17,11 +17,17 @@ class UserProfile(models.Model):
     #return self.user.get_full_name()
 
   def get_picture(self):
-    print self.image
     if (self.image):
       return self.image.url
     else:
       return "/static/img/u/placeholder-user-small.png"
+  def get_friends(self):
+    relationships=Relationship.objects.filter(usr_profile=self)
+    friends=[]
+    for ship in relationships:
+      friends.append(ship.friend)
+
+    return friends
 
 class UserProfileForm(forms.ModelForm):
   class Meta:

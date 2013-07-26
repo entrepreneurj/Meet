@@ -46,3 +46,13 @@ def dashboard(request):
   events=Event.objects.filter(attendee__usr_profile=user_profile)
 
   return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )
+
+
+
+def friends(request, slug):
+  user=User.objects.filter(username=slug)[0]
+  usr_profile=user.get_profile()
+  friends=usr_profile.get_friends()
+
+  print friends
+  return render_to_response('friends.html', {'friends':friends, 'user':user }, context_instance=RequestContext(request) )

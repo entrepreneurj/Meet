@@ -1,0 +1,17 @@
+HTML5 Django DateTimeWidget
+
+See rest of the code and instructions at: 
+http://copiesofcopies.org/webl/ ( http://copiesofcopies.org/webl/2010/04/26/a-better-datetime-widget-for-django/ )
+
+For localized times, use with django-timezones:
+
+from timezones.forms import LocalizedDateTimeField
+
+date_field = LocalizedDateTimeField(
+              timezone=target_timezone,
+              widget=JqSplitDateTimeWidget(
+                   attrs={'date_class':'datepicker','time_class':'timepicker'}
+                   )
+            )
+  
+

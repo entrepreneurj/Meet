@@ -64,6 +64,11 @@ def create_event(request):
     new_Event=f.save(commit=False)
     new_Event.host=request.user.get_profile()
     new_Event.save()
+    host_attendee=Attendee();
+    host_attendee.usr_profile=new_Event.host;
+    host_attendee.event=new_Event;
+    host_attendee.attending="A";
+    host_attendee.save()
     print vars(new_Event)
     return redirect('event_detail', slug=new_Event.id )
   
@@ -73,5 +78,8 @@ def create_event(request):
 def event_detail(request, slug):
   print slug
   event = Event.objects.get(id=slug)
-
-  return render_to_response('event_detail.html', {'event':event},context_instance=RequestContext(request) )
+  my_att=list(Attendee.objects.filter(usr_profile=request.user.get_profile(), event=event))
+  if (my_att):
+    return render_to_response('event_detail.html', {'event':event, 'personal_att':my_att[0]},context_instance=RequestContext(request) )
+  else:
+    return render_to_response('event_detail.html', {'event':event},context_instance=RequestContext(request) )

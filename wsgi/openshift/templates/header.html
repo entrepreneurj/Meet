@@ -3,7 +3,7 @@
 
 {% block head %}
 
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/meet.css" />
 <link type="text/css" href="{{ STATIC_URL }}css/jquery-ui-1.10.3.custom.css" rel="Stylesheet" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script> 
 <script src="{{ STATIC_URL }}js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
@@ -27,7 +27,7 @@
           {% if user.is_authenticated %}
           <li class=""><a href="{% url dashboard %}">Dashboard</a></li>
           <li class=""><a href="{% url profile slug=user.username %}">Profile</a></li>
-          <li class=""><a href="{% url profile slug=user.username %}">Friends</a></li>
+          <li class=""><a href="{% url friends slug=user.username %}">Friends</a></li>
           {% else %}
           <li class=""><a href="{% url registration_register %}">Sign Up</a></li>
           {% endif %}

@@ -18,7 +18,7 @@ class UserProfile(models.Model):
 
   def get_picture(self):
     if (self.image):
-      return self.image.url
+      return ''.join(["/",self.image.url])
     else:
       return "/static/img/u/placeholder-user-small.png"
   def get_friends(self):
@@ -84,9 +84,9 @@ class Attendee(models.Model):
   ACCEPTED="A"
   DECLINED="D"
   PARTICIPATION_CHOICES = (
-    (ACCEPTED, "ACCEPTED"),
-    (DECLINED, "DECLINED"),
-    (NEEDS_ACTION, "NEEDS-ACTION"),
+    (ACCEPTED, "Accepted"),
+    (DECLINED, "Declined"),
+    (NEEDS_ACTION, "Needs-Action"),
   )
   event=models.ForeignKey(Event)
   usr_profile=models.ForeignKey(UserProfile)
@@ -94,6 +94,9 @@ class Attendee(models.Model):
 
   def __unicode__(self):
         return ' - '.join([self.event.name,str(self.usr_profile), self.attending])
+  
+  def name(self):
+    return self.usr_profile.user.get_full_name()
 
 class Message(models.Model):
   attendee=models.ForeignKey(Attendee)

@@ -1,0 +1,87 @@
+{% extends "header.html" %}
+
+
+
+
+{% block content %}
+<h2>My meets</h2>
+<div class="well">
+  <div style="float:left;"><h3>{{ event.name }}</h3></div>
+  <div style="float:right;"><span class="label label-success">Time until: {{event.start_date|timeuntil }}</span></div>
+  <div style="clear:both;"></div>
+  <hr>
+  <div class="row-fluid">
+    <div class="span10">
+      {% ifequal event.start_date.date  event.end_date.date%}
+
+      <p><strong>Date:</strong> {{ event.start_date.date }} </p>
+      <p><strong>Time:</strong> {{ event.start_date.time }} - {{ event.end_date.time }} </p>
+      {% else %}
+      <p><strong>Start Date:</strong> {{ event.start_date }}</p>
+      <p><strong>End Date:</strong> {{ event.end_date }}</p>
+      <p><strong>Duration: Duration</strong></p>
+      {% endifequal %}
+
+      <strong>Description:</strong><br><br>
+      <p class="well" style="background-color:white;">{{ event.description }}</p>
+    </div><!-- /span8 -->
+    <div class="span2">
+      <h4> Host:</h4>
+      <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><img style="margin-left:auto;margin-right:auto;width:90%;" src="{{ event.host.get_picture }}" /></a>
+      <a href="{% url profile slug=event.host.user.username %}" class="text-center" ><h5>{{event.host}}<h5></a>
+        </div>
+      </div> <!-- /row-fluid -->
+      {% if personal_att %}
+      <div class="personal">
+        <p class="inline">I have:</p><div class="btn-group"><button class="btn btn-default">{{ personal_att.get_attending_display }}</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <!-- dropdown menu links -->
+          <li><a href="">Accepted</a></li>
+          <li><a href="">Declined</a></li>
+        </ul>
+      </div>
+      </div><br>
+      {% endif %}
+      <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab1" data-toggle="tab">Event Messages</a></li>
+          <li><a href="#tab2" data-toggle="tab">Attendees ({{ event.attendee_set.all.count }})</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <p>I'm in Section 1.</p>
+          </div>
+          <div class="tab-pane" id="tab2">
+            <p>Howdy, I'm in Section 2.</p>
+
+            {% for attendee in event.attendee_set.all %}
+            <div class="attendee">
+              <a href="{% url profile slug=attendee.usr_profile.user.username %}"><img style="margin-left:5%;margin-right:5%;width:20%;" class="pull-left" src="{{ attendee.usr_profile.get_picture }}" /></a>
+              <a href="{% url profile slug=attendee.usr_profile.user.username %}"><h3 class="pull-left" style="margin-bottom:2px; width:auto;">{{ attendee.name }}</h3></a><br><br><br>
+              {% if attendee.attending == "D" %}
+              <span class="badge badge-important">declined</span>
+              {% elif attendee.attending == "A" %}
+              <span class="badge badge-success">attending</span>
+              {% else %}  
+              <span class="badge badge-warning">no reply</span>
+              {% endif %}
+              <div class="clearfix"></div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div> <!-- /well -->
+
+
+    {% endblock %}
+
+

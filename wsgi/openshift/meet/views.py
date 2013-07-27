@@ -1,13 +1,13 @@
 # Create your views here.
 from django.core.context_processors import csrf
 from meet.models import *
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.generic import DetailView
 #Django 1.5 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User #Django < 1.5
 from django.template import RequestContext
-
-
+from meet.forms import *
+from pprint import pprint
 
 
 def home(request):
@@ -56,3 +56,22 @@ def friends(request, slug):
 
   print friends
   return render_to_response('friends.html', {'friends':friends, 'user':user }, context_instance=RequestContext(request) )
+
+
+def create_event(request):
+  if (request.POST):
+    f=EventForm(request.POST)
+    new_Event=f.save(commit=False)
+    new_Event.host=request.user.get_profile()
+    new_Event.save()
+    print vars(new_Event)
+    return redirect('event_detail', slug=new_Event.id )
+  
+  else:  
+    return render_to_response('create_event.html', {'form':EventForm()},context_instance=RequestContext(request) )
+
+def event_detail(request, slug):
+  print slug
+  event = Event.objects.get(id=slug)
+
+  return render_to_response('event_detail.html', {'event':event},context_instance=RequestContext(request) )

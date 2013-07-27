@@ -9,5 +9,5 @@ setup(
     author='Your Name',
     author_email='joe.letts@me.com',
     url='http://www.python.org/sigs/distutils-sig/',
-    install_requires=['Django<=1.4', 'django-registration'],
+    install_requires=['Django<=1.4', 'django-registration', 'pytz', 'South'],
 )

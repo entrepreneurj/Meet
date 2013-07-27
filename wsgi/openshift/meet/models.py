@@ -3,14 +3,14 @@ from django import forms
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 import datetime
-
+from django.utils import timezone
 class UserProfile(models.Model):
   user=models.OneToOneField(User, primary_key=True)
   is_pro=models.BooleanField(default=False)
   city=models.CharField(max_length=50,blank=True)
   country=models.CharField(max_length=50,blank=True)
   image=models.ImageField(upload_to="static/img/u", blank=True)
-  
+#  twitter=models.CharField(max_length=15, blank=True) 
   def __unicode__(self):
     #return ' '.join([self.user.first_name,self.user.last_name])
     return str(self.user)
@@ -69,11 +69,11 @@ class Event(models.Model):
 
   name = models.CharField(max_length=140)
   version   = models.IntegerField(default=0)
-  start_date=models.DateTimeField('start time', default=datetime.datetime.now())
-  end_date=models.DateTimeField('end time', default=datetime.datetime.now)
+  start_date=models.DateTimeField('start time', default=timezone.now())
+  end_date=models.DateTimeField('end time', default=timezone.now)
   type_maj=models.CharField(max_length=1,choices=TYPE_MAJOR_CHOICES,default=PERSONAL)
   type_min=models.CharField(max_length=2,choices=TYPE_MINOR_CHOICES,default=SOCIAL)
-  description= models.TextField()
+  description= models.TextField(blank=True)
   host= models.ForeignKey(UserProfile)
 
   def __unicode__(self):

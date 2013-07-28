@@ -12,32 +12,15 @@
   </ul>
 </div>
 {% for friend in friends %}
-<div class="well row-fluid">
-  <div class="span3"><a href="{% url profile slug=friend.user.username %}" > <img  src="{{ friend.get_picture }}" /> </a>
+<div class="well pull-left" style="width:40%; margin:2%;">
+  <div class="pull-left" style="width:30%;"><a href="{% url profile slug=friend.user.username %}" > <img  src="{{ friend.get_picture }}" /> </a>
   </div>
-  <div class="profile-info span5">
-    <h2>{{ friend.user.get_full_name}}</h2>
-    <br>
-    <dl class="dl-horizontal">
-      <dt>Username</dt> 
-      <dd>{{ friend.user.username }}</dd>
-      <dt>City</dt> 
-      <dd>{{ friend.city }}</dd>
-      <dt>Country</dt> 
-      <dd>{{ friend.country }}</dd>
-    </dl>
-  </div>
-  <div class="span4">
-    <h3>Contact me:</h3>
-    <br>
-    <dl class="dl-horizontal">
-      <dt>Facebook</dt> 
-      <dd>j.a.l.letts</dd>
-      <dt>Twitter</dt> 
-      <dd>@jal08</dd>
-      <dt>tumblr</dt> 
-      <dd>genericfixture</dd>
-    </dl>
+  <div class="profile-info pull-right" style="width:65%;">
+    <a href="{% url profile slug=friend.user.username %}" > <h3 style="margin:0;">{{ friend.user.get_full_name}}</h3></a>
+    <table style="border-collapse: separate; border-spacing: 8px;">
+      <tr><td><b>City</b></td><td>{{ friend.city }}</td></tr>
+      <tr><td><b>Country</b></td><td>{{ friend.country }}</td></tr>
+    </table>
   </div>
 
 </div>

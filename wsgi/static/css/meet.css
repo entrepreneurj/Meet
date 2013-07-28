@@ -1,0 +1,12 @@
+@import url("/static/bootstrap/css/bootstrap.css");
+
+
+
+.inline { display:inline;}
+
+
+div.attendee {float:left;
+              margin:2%;
+              width:40%; 
+          
+              }

@@ -165,7 +165,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'meet',
     'registration',
-    'south',
+    #    'south',
 )
 
 from django.core.urlresolvers import reverse_lazy

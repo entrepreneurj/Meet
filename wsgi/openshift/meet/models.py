@@ -99,12 +99,13 @@ class Attendee(models.Model):
     return self.usr_profile.user.get_full_name()
 
 class Message(models.Model):
-  attendee=models.ForeignKey(Attendee)
+  usr_profile=models.ForeignKey(UserProfile)
+  event=models.ForeignKey(Event)
   pub_date=models.DateTimeField('Published Date')
   contents=models.TextField()
   
   def __unicode__(self):
-        return ' - '.join([str(self.attendee),str(self.pub_date)])
+        return ' - '.join([str(self.usr_profile),str(self.pub_date)])
 
 
 class Event_Action(models.Model):

@@ -34,15 +34,15 @@
       {% if personal_att %}
       <div class="personal">
         <p class="inline">I have:</p><div class="btn-group"><button class="btn btn-default">{{ personal_att.get_attending_display }}</button>
-        <button class="btn dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <!-- dropdown menu links -->
-          <li><a href="">Accepted</a></li>
-          <li><a href="">Declined</a></li>
-        </ul>
-      </div>
+          <button class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <!-- dropdown menu links -->
+            <li><a href="">Accepted</a></li>
+            <li><a href="">Declined</a></li>
+          </ul>
+        </div>
       </div><br>
       {% endif %}
       <div class="tabbable"> <!-- Only required for left/right tabs -->
@@ -53,6 +53,32 @@
         <div class="tab-content">
           <div class="tab-pane active" id="tab1">
             <p>I'm in Section 1.</p>
+
+            {% for msg in event.message_set.all %}
+            <div class="media fluid-row msg">
+              <div class="span1">
+              <a class="pull-left" href="#">
+                <img class="media-object" src="{{ msg.usr_profile.get_picture }}">
+              </a>
+            </div>
+              <div class="media-body span11">
+                <!-- <h4 class="media-heading">Media heading</h4>-->
+                <p><a href=""><b>{{ msg.usr_profile.user.get_full_name }}</b></a>: {{msg.contents}}</p>
+
+                <!-- Nested media object -->
+              </div>
+            <div class="clearfix"></div>
+          </div>
+
+          {% endfor %}
+          <br><hr><br>
+          <form method="POST">
+            <input name="contents" type="text" class="input-block-level" placeholder="Say something…" />
+             {% csrf_token %}
+             <button type="submit" class="btn pull-right">Send</button>
+           </form>
+
+
           </div>
           <div class="tab-pane" id="tab2">
             <p>Howdy, I'm in Section 2.</p>

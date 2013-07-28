@@ -8,7 +8,7 @@ from django.contrib.auth.models import User #Django < 1.5
 from django.template import RequestContext
 from meet.forms import *
 from pprint import pprint
-
+from django.utils import timezone
 
 def home(request):
     #return render_to_response('home/home.html')
@@ -76,9 +76,19 @@ def create_event(request):
     return render_to_response('create_event.html', {'form':EventForm()},context_instance=RequestContext(request) )
 
 def event_detail(request, slug):
-  print slug
+  user=request.user.get_profile()
   event = Event.objects.get(id=slug)
-  my_att=list(Attendee.objects.filter(usr_profile=request.user.get_profile(), event=event))
+  my_att=list(Attendee.objects.filter(usr_profile=user, event=event))
+  if (request.POST.get('contents',"")  ):
+    #f=MessageForm(request.POST)
+    #new_msg=f.save(commit=False);
+    new_msg=Message();
+    new_msg.contents=request.POST.get('contents',"") 
+    new_msg.event=event;
+    new_msg.usr_profile=user;
+    new_msg.pub_date=timezone.now()
+    new_msg.save()
+
   if (my_att):
     return render_to_response('event_detail.html', {'event':event, 'personal_att':my_att[0]},context_instance=RequestContext(request) )
   else:

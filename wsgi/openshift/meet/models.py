@@ -91,6 +91,9 @@ class Attendee(models.Model):
   event=models.ForeignKey(Event)
   usr_profile=models.ForeignKey(UserProfile)
   attending=models.CharField(max_length=1,choices=PARTICIPATION_CHOICES, default=NEEDS_ACTION)
+  
+  class Meta:
+    unique_together = ('event', 'usr_profile',)
 
   def __unicode__(self):
         return ' - '.join([self.event.name,str(self.usr_profile), self.attending])
@@ -153,5 +156,7 @@ class Relationship(models.Model):
     (ACQUAINTANCE, "Acquaintance"),
   )
   relationship=models.CharField(max_length=1,choices=CHOICES)
+  class Meta:
+     unique_together =('usr_profile','friend',)
   def __unicode__(self):
         return ' - '.join([str(self.usr_profile),str(self.friend), self.relationship])

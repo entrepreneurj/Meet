@@ -42,7 +42,7 @@
             <li><a href="">Accepted</a></li>
             <li><a href="">Declined</a></li>
           </ul>
-        </div>
+        </div><a href="{% url event_edit slug=event.id %}" class="btn btn-large btn-primary">Edit event</a>
       </div><br>
       {% endif %}
       <div class="tabbable"> <!-- Only required for left/right tabs -->
@@ -52,13 +52,12 @@
         </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="tab1">
-            <p>I'm in Section 1.</p>
-
+            {% if event.message_set.all %}
             {% for msg in event.message_set.all %}
             <div class="media fluid-row msg">
               <div class="span1">
-              <a class="pull-left" href="#">
-                <img class="media-object" src="{{ msg.usr_profile.get_picture }}">
+              <a class="pull-left"  style="width:99%" href="#">
+                <img class="media-object" style="width:inherit;" src="{{ msg.usr_profile.get_picture }}">
               </a>
             </div>
               <div class="media-body span11">
@@ -71,7 +70,10 @@
           </div>
 
           {% endfor %}
-          <br><hr><br>
+          {% else %}
+          <h2>No messages</h2>
+          {% endif %}
+          <hr><br>
           <form method="POST">
             <input name="contents" type="text" class="input-block-level" placeholder="Say something…" />
              {% csrf_token %}

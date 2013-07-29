@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-from meet.views import UserProfileDetailView, dashboard, home, friends, create_event, event_detail
+from meet.views import UserProfileDetailView, dashboard, home, friends, create_event, event_detail, event_edit
 
 urlpatterns = patterns('',
     # Examples:
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^users/(?P<slug>\w+)/friends$', friends, name="friends"), 
     url(r'^events/create$', create_event, name="create_event"), 
     url(r'^events/(?P<slug>\d+)$', event_detail, name="event_detail"), 
+    url(r'^events/(?P<slug>\d+)/edit$', event_edit, name="event_edit"), 
 
     
     url(r'^admin/', include(admin.site.urls)),

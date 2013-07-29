@@ -5,6 +5,14 @@
 .inline { display:inline;}
 
 
+
+
+
+
+/* Header */
+
+.valign {vertical-align:middle;}
+
 div.attendee {float:left;
               margin:2%;
               width:40%; 

@@ -19,6 +19,16 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
+#EMAIL_HOST='mail.icradio.com'
+#EMAIL_PORT='25'
+#EMAIL_HOST_USER='technical@icradio.com'
+#EMAIL_HOST_PASSWORD='mArc0n1'
+#EMAIL_USE_TLS = True
+EMAIL_HOST='email-smtp.us-east-1.amazonaws.com'
+EMAIL_PORT='25'
+EMAIL_HOST_USER='AKIAIKVHGHCGCO53L4JQ'
+EMAIL_HOST_PASSWORD='AplYhjiiA1r5DsPixVRnG5rUsqK+1D6AFXTrS54wy53L'
+EMAIL_USE_TLS = True
 if ON_OPENSHIFT:
     # os.environ['OPENSHIFT_MYSQL_DB_*'] variables can be used with databases created
     # with rhc cartridge add (see /README in this git repo)

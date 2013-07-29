@@ -22,14 +22,14 @@
 
       <div class="span4"></div>
       <div class="span4"><h1 class="text-center">MeetApp</h1></div>
-      <div class="span4">
-        <ul class="inline" style="height:auto;">
+      <div class="span4 valign" style="min-height:4em;">
+        <ul class="inline valign">
           {% if user.is_authenticated %}
-          <li class=""><a href="{% url dashboard %}">Dashboard</a></li>
-          <li class=""><a href="{% url profile slug=user.username %}">Profile</a></li>
-          <li class=""><a href="{% url friends slug=user.username %}">Friends</a></li>
+          <li class="valign"><div class="valign"><a href="{% url dashboard %}">Dashboard</a></div></li>
+          <li class="valign"><a href="{% url profile slug=user.username %}">Profile</a></li>
+          <li class="valign"><a href="{% url friends slug=user.username %}">Friends</a></li>
           {% else %}
-          <li class=""><a href="{% url registration_register %}">Sign Up</a></li>
+          <li class="valign"><a href="{% url registration_register %}">Sign Up</a></li>
           {% endif %}
         </ul>
       </div>

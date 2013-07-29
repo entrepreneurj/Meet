@@ -10,7 +10,6 @@
       <div style="float:left;"><a href="{% url event_detail slug=event.id %}"><h3>{{ event.name }}</h3></a></div>
       <div style="float:right;"><span class="label label-success">Time until: {{event.start_date|timeuntil }}</span></div>
       <div style="clear:both;"></div>
-      <hr>
       <div class="row-fluid">
         <div class="span10">
           {% ifequal event.start_date.date  event.end_date.date%}

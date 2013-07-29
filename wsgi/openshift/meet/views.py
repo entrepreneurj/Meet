@@ -98,10 +98,10 @@ def event_edit(request, slug):
   user=request.user.get_profile()
   event = Event.objects.get(id=slug)
   if (event.host==user):
-    from django.core.mail import send_mail
+    #from django.core.mail import send_mail
 
-    send_mail('Subject here', 'Here is the message.', 'technical@icradio.com',
-            ['technical@icradio.com'], fail_silently=False)
+    #send_mail('Subject here', 'Here is the message.', 'technical@icradio.com',
+    #        ['technical@icradio.com'], fail_silently=False)
     return render_to_response('event_edit.html', {'event':event},context_instance=RequestContext(request) )
   else:
     redirect('event_detail', slug=slug)

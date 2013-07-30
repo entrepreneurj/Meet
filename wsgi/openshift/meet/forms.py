@@ -14,3 +14,5 @@ class MessageForm(ModelForm):
   class Meta:
     model = Message
     localised_fields=('pub_date',)
+
+

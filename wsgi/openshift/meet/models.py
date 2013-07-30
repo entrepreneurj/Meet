@@ -4,13 +4,18 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
+from gettext import gettext as _
+
 class UserProfile(models.Model):
   user=models.OneToOneField(User, primary_key=True)
   is_pro=models.BooleanField(default=False)
   city=models.CharField(max_length=50,blank=True)
   country=models.CharField(max_length=50,blank=True)
   image=models.ImageField(upload_to="static/img/u", blank=True)
-#  twitter=models.CharField(max_length=15, blank=True) 
+  twitter=models.CharField(max_length=15, blank=True) 
+  facebook=models.CharField(max_length=25, blank=True) 
+  foursquare=models.CharField(max_length=25, blank=True) 
+  telephone=models.CharField(max_length=15, blank=True) 
   def __unicode__(self):
     #return ' '.join([self.user.first_name,self.user.last_name])
     return str(self.user)
@@ -21,6 +26,7 @@ class UserProfile(models.Model):
       return ''.join(["/",self.image.url])
     else:
       return "/static/img/u/placeholder-user-small.png"
+  
   def get_friends(self):
     relationships=Relationship.objects.filter(usr_profile=self)
     friends=[]
@@ -30,6 +36,8 @@ class UserProfile(models.Model):
     return friends
 
 class UserProfileForm(forms.ModelForm):
+  first_name = forms.CharField(label=_(u'Firstname'), max_length=30)
+  last_name = forms.CharField(label=_(u'Surname'), max_length=30)
   class Meta:
     model = UserProfile
     exclude=['is_pro', 'image']
@@ -37,7 +45,18 @@ class UserProfileForm(forms.ModelForm):
     print kwargs, args
     super(UserProfileForm, self).__init__(*args, **kwargs)
     self.user= kwargs['instance']
+    self.fields['first_name'].initial = self.instance.user.first_name
+    self.fields['last_name'].initial = self.instance.user.last_name
 
+    self.fields.keyOrder = ['first_name', 'last_name', 'city', 'country' , 'twitter', 'facebook', 'foursquare', 'telephone' ]
+  
+  
+  def save(self, *args, **kw):
+    super(UserProfileForm, self).save(*args, **kw)
+    self.instance.user.first_name = self.cleaned_data.get('first_name')
+    self.instance.user.last_name = self.cleaned_data.get('last_name')
+    self.instance.user.save()
+  
 def create_user_profile(sender, instance, created, **kwargs):
       if created:
         #Django 1.5 profile, created = UserProfile.object.get_or_create(user=instance)
@@ -75,7 +94,7 @@ class Event(models.Model):
   type_min=models.CharField(max_length=2,choices=TYPE_MINOR_CHOICES,default=SOCIAL)
   description= models.TextField(blank=True)
   host= models.ForeignKey(UserProfile)
-
+  public=models.BooleanField(default=False)
   def __unicode__(self):
       return ' - '.join([self.name,str(self.start_date), str(self.host)])
 
@@ -91,7 +110,8 @@ class Attendee(models.Model):
   event=models.ForeignKey(Event)
   usr_profile=models.ForeignKey(UserProfile)
   attending=models.CharField(max_length=1,choices=PARTICIPATION_CHOICES, default=NEEDS_ACTION)
-  
+  is_public=models.BooleanField(default=False)
+
   class Meta:
     unique_together = ('event', 'usr_profile',)
 

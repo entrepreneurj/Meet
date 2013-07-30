@@ -1,6 +1,11 @@
 {% extends "header.html" %}
 
 {% block content %}
+{% if user.first_name == "" %}
+<div class="alert alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <p>Please add your first and last name so people know who you are!</p>
+    </div>{% endif %}
 <h2>{{ object.username }}'s profile</h2>
 {% if object.userprofile.image %}
 {% endif %}
@@ -9,13 +14,23 @@
   <ul class="nav nav-pills">
     <li class="active"><a href="#">profile</a></li>
     <li><a href="{% url friends slug=object.username %}">friends</a></li>
-    <li><a href="#">events</a></li>
+    <li><a href="{% url profile_events slug=object.username %}">meets</a></li>
   </ul>
 </div>
 
-<div class="well row-fluid">
+<div class="well row-fluid" style="width:95%; margin-left:auto;margin-right:auto;">
 
-  <div class="span3"> <img  src="{{ object.userprofile.get_picture }}" />
+  <div class="span3">
+    {% if user.first_name == "" %}
+    <form method="POST">
+      
+    {% csrf_token %}
+    <input type="text" placeholder="First name" name="fname">
+    <input type="text" placeholder="Surname" name="lname">
+    <button type="submit" class="btn">Submit</button>
+  </form>
+    {% endif %}
+    <img  src="{{ object.userprofile.get_picture }}" />
   </div>
   <div class="profile-info span5">
     <h2>{{ object.userprofile.user.get_full_name}}</h2>
@@ -33,14 +48,25 @@
     <h3>Contact me:</h3>
     <br>
     <dl class="dl-horizontal">
-      <dt>Facebook</dt> 
-      <dd>j.a.l.letts</dd>
-      <dt>Twitter</dt> 
-      <dd>@jal08</dd>
-      <dt>tumblr</dt> 
-      <dd>genericfixture</dd>
+      {% if object.userprofile.twitter %}
+      <dt>twitter</dt> 
+      <dd><a href="https://www.twitter.com/{{ object.userprofile.twitter }}">@{{ object.userprofile.twitter }}</a></dd>
+      {% endif %}
+      {% if object.userprofile.facebook %}
+      <dt>facebook</dt> 
+      <dd><a href="https://www.facebook.com/{{ object.userprofile.facebook }}">{{ object.userprofile.facebook }}</a></dd>
+      {% endif %}
+      {% if object.userprofile.foursquare %}
+      <dt>foursquare</dt> 
+      <dd><a href="https://foursquare.com/{{ object.userprofile.foursquare }}">{{ object.userprofile.foursquare }}</a></dd>
+      {% endif %}
+      {% if object.userprofile.telephone %}
+      <dt>telephone</dt> 
+      <dd>{{ object.userprofile.telephone }}</dd>
+      {% endif %}
     </dl>
   </div>
+  {% if is_me %}<a href="{% url profile_edit slug=object.userprofile.user.username %}" class="btn btn-primary pull-right">Edit Profile</a>{% endif %}
 
 </div>
 {% endblock %}

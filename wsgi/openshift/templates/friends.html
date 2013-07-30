@@ -8,9 +8,10 @@
   <ul class="nav nav-pills">
     <li><a href="{% url profile slug=user.username %}">profile</a></li>
     <li class="active"><a href="#">friends</a></li>
-    <li><a href="#">events</a></li>
+    <li><a href="{% url profile_events slug=user.username %}">meets</a></li>
   </ul>
 </div>
+{% if friends %}
 {% for friend in friends %}
 <div class="well pull-left" style="width:40%; margin:2%;">
   <div class="pull-left" style="width:30%;"><a href="{% url profile slug=friend.user.username %}" > <img  src="{{ friend.get_picture }}" /> </a>
@@ -26,4 +27,11 @@
 </div>
 
 {% endfor %}
+{% else %}
+<div class="hero-unit">
+  <h1>This user currently has no friends :(</h1>
+  <p> Become their friend today!</p>
+  <a href="#" class="btn btn-primary disabled">Submit friend request</a>
+</div>
+{% endif %}
 {% endblock %}

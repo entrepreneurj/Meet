@@ -7,8 +7,10 @@ from django.views.generic import DetailView
 from django.contrib.auth.models import User #Django < 1.5
 from django.template import RequestContext
 from meet.forms import *
+from meet.admin import UserProfileAdmin
 from pprint import pprint
 from django.utils import timezone
+from django.contrib import messages
 
 def home(request):
     #return render_to_response('home/home.html')
@@ -21,7 +23,6 @@ def accountform(request):
     data.update(csrf(request))
     user_profile = request.user.get_profile()
     data['form'] = UserProfileForm(instance=user_profile)
-    print user_profile
     return render(request, 'accountform.html', data)
 
 
@@ -38,15 +39,63 @@ class UserProfileDetailView(DetailView):
    # Django >=1.5 UserProfile.objects.get_or_create(user=get_user_model())
     return user
 
+
+def profile(request, slug):
+  user=User.objects.filter(username=slug)[0]
+  user_profile, created=UserProfile.objects.get_or_create(user=user)
+  if (request.POST.get('fname',"") ):
+    user_profile.user.first_name=request.POST.get('fname',"")   
+    user_profile.user.last_name=request.POST.get('lname',"")
+    user_profile.user.save()
+ # if (request.POST.get('city',"") or request.POST.get('country',"") ):
+ #   user_profile.city=request.POST.get('city',"")
+ #   user_profile.country=request.POST.get('country',"")
+ #   user_profile.save()
+  if (request.user == user):
+    is_me=True
+  else:
+    is_me=False
+
+  return render_to_response('user_detail.html', { 'object':user_profile.user, 'is_me':is_me}, context_instance=RequestContext(request) )
+
+def profile_edit(request, slug):
+  user=User.objects.filter(username=slug)[0]
+  user_profile, created=UserProfile.objects.get_or_create(user=user)
+  if (request.user == user):
+    is_me=True
+    if (request.POST ):
+      #f=UserProfileAdmin(request.POST, user_profile)
+      f=UserProfileForm(request.POST,instance=user_profile)
+      f.save()
+      #user_profile.save()
+      return redirect("profile", slug=user.username)
+    else:
+      UsrProfileFrm=UserProfileForm(instance=user_profile)
+      return render_to_response('user_edit.html', { 'object':user_profile.user, 'form':UsrProfileFrm}, context_instance=RequestContext(request) )
+  else:
+    is_me=False
+    return redirect("profile_edit", slug=request.user.username)
+
+def profile_events(request, slug):
+  user=User.objects.filter(username=slug)[0]
+  usr_profile, created=UserProfile.objects.get_or_create(user=user)
+  events=Event.objects.filter(public=True, attendee__is_public=True, attendee__usr_profile=usr_profile)
+  if (events):
+    return render_to_response('user_events.html', {'events':events, 'user':user }, context_instance=RequestContext(request) )
+  else:
+    return render_to_response('user_events.html', { 'user':user }, context_instance=RequestContext(request) )
+
 ### Main views
 
 def dashboard(request):
 
   user_profile = request.user.get_profile()
   events=Event.objects.filter(attendee__usr_profile=user_profile)
+  if (events):
+    return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )
+  else:
 
-  return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )
-
+    return render_to_response('dashboard.html', context_instance=RequestContext(request) )
 
 
 def friends(request, slug):
@@ -54,7 +103,6 @@ def friends(request, slug):
   usr_profile=user.get_profile()
   friends=usr_profile.get_friends()
 
-  print friends
   return render_to_response('friends.html', {'friends':friends, 'user':user }, context_instance=RequestContext(request) )
 
 
@@ -62,14 +110,15 @@ def create_event(request):
   if (request.POST):
     f=EventForm(request.POST)
     new_Event=f.save(commit=False)
-    new_Event.host=request.user.get_profile()
+    host, created = UserProfile.objects.get_or_create(user=request.user)
+    new_Event.host=host
     new_Event.save()
     host_attendee=Attendee();
     host_attendee.usr_profile=new_Event.host;
     host_attendee.event=new_Event;
     host_attendee.attending="A";
     host_attendee.save()
-    print vars(new_Event)
+    messages.add_message(request, messages.INFO,"Your meet was created successfully. Invite a friend", extra_tags='alert-success')
     return redirect('event_detail', slug=new_Event.id )
   
   else:  

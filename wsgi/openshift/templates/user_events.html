@@ -1,0 +1,34 @@
+{% extends "header.html" %}
+
+{% block content %}
+<h2>{{ user.username }}'s meets</h2>
+{% if object.userprofile.image %}
+{% endif %}
+<div>
+  <ul class="nav nav-pills">
+    <li><a href="{% url profile slug=user.username %}">profile</a></li>
+    <li><a href="{% url friends slug=user.username %}">friends</a></li>
+    <li class="active"><a href="#">meets</a></li>
+  </ul>
+</div>
+{% if events %}
+{% for event in events %}
+<div class="well pull-left" style="width:40%; margin:2%;">
+  <div class="profile-info" >
+    <a href="{% url event_detail slug=event.id %}" > <h3 style="margin:0;">{{ event.name }}</h3></a>
+    <table style="border-collapse: separate; border-spacing: 8px;">
+      <tr><td><b>Date:</b></td><td>{{ event.start_date|date }}</td></tr>
+      <tr><td><b>Host:</b></td><td>{{ event.host }}</td></tr>
+    </table>
+  </div>
+
+</div>
+
+{% endfor %}
+{% else %}
+<div class="hero-unit">
+  <h1>This user currently has no public meets</h1>
+  <p> ...</p>
+</div>
+{% endif %}
+{% endblock %}

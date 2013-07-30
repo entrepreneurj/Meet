@@ -1,0 +1,24 @@
+{% extends "header.html" %}
+
+{% block content %}
+<h1>Editing Profile</h1>
+<div class="fluid-row">
+  
+  <div class="span4">
+  </div> 
+  
+  <div class="span4">
+<form method="post">
+  {{ form }}
+  {% csrf_token %}
+  <br><input class="btn btn-primary" type="submit" value="Submit">
+  <a href="{% url profile slug=user.username %}" class="btn">Cancel</a>
+  </form>
+</div>
+
+  <div class="span4">
+  </div> 
+
+</div>
+
+{% endblock %}

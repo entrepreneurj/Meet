@@ -46,8 +46,23 @@
           </ul>
         </div>
         <a href="{% url event_edit slug=event.id %}" class="btn btn-primary">Edit event</a>
-        <a href="{% url event_edit slug=event.id %}" class="btn btn-primary">Invite friends</a>
+        <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Invite friends</a>
       </div><br>
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Invite Friends</h3>
+        </div>
+        <div class="modal-body">
+          <div id="friend-list">
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button class="btn btn-primary"><i class="icon-envelope icon-white"></i> Invite</button>
+        </div>
+      </div>
       {% endif %}
       <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
@@ -60,29 +75,29 @@
             {% for msg in event.message_set.all %}
             <div class="media fluid-row msg">
               <div class="span1">
-              <a class="pull-left"  style="width:99%" href="#">
-                <img class="media-object" style="width:inherit;" src="{{ msg.usr_profile.get_picture }}">
-              </a>
-            </div>
+                <a class="pull-left"  style="width:99%" href="#">
+                  <img class="media-object" style="width:inherit;" src="{{ msg.usr_profile.get_picture }}">
+                </a>
+              </div>
               <div class="media-body span11">
                 <!-- <h4 class="media-heading">Media heading</h4>-->
                 <p><a href=""><b>{{ msg.usr_profile.user.get_full_name }}</b></a>: {{msg.contents}}</p>
 
                 <!-- Nested media object -->
               </div>
-            <div class="clearfix"></div>
-          </div>
+              <div class="clearfix"></div>
+            </div>
 
-          {% endfor %}
-          {% else %}
-          <h2>No messages</h2>
-          {% endif %}
-          <hr><br>
-          <form method="POST">
-            <input name="contents" type="text" class="input-block-level" placeholder="Say something…" />
-             {% csrf_token %}
-             <button type="submit" class="btn pull-right">Send</button>
-           </form>
+            {% endfor %}
+            {% else %}
+            <h2>No messages</h2>
+            {% endif %}
+            <hr><br>
+            <form method="POST">
+              <input name="contents" type="text" class="input-block-level" placeholder="Say something…" />
+              {% csrf_token %}
+              <button type="submit" class="btn pull-right">Send</button>
+            </form>
 
 
           </div>

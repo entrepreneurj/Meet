@@ -1,0 +1,32 @@
+
+
+/* Friend Invite */
+
+#friend-list {
+  min-height:200px;
+overflow-y:scroll;
+}
+
+
+div.invite-friend {
+  width:15%;
+  padding:1%;
+  padding-bottom:0;
+}
+
+
+div.invite-friend img {
+  /*width:30%;*/
+  margin-right:auto;
+  margin-left:auto;
+}
+
+div.invite-friend p {
+  text-align:center;
+  margin:0;
+}
+
+div.invited {
+background-color:rgb(43, 171, 235);
+/*background-color:rgb(0, 136, 204);*/
+}

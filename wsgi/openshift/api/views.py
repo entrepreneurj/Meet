@@ -22,7 +22,7 @@ def get_friends(request):
     usr_profile, created =UserProfile.objects.get_or_create(user=user)
     friends=UserProfile.get_friends(usr_profile)
     for friend in friends:
-      friend_data={'u': friend.username, 'n':friend.user.get_full_name(), 'p':friend.get_picture() }
+      friend_data={'u': friend.user.username, 'n':friend.user.get_full_name(), 'p':friend.get_picture() }
       friends_json.append(friend_data)
      
     return HttpResponse(simplejson.dumps(friends_json), mimetype='application/json')

@@ -1,5 +1,6 @@
 @import url("/static/bootstrap/css/bootstrap.css");
 
+@import url("/static/css/event.css");
 
 
 .inline { display:inline;}
@@ -16,5 +17,9 @@
 div.attendee {float:left;
               margin:2%;
               width:40%; 
-          
-              }
+          }
+
+
+
+
+

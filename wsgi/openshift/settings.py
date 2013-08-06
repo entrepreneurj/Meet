@@ -2,6 +2,7 @@
 # Django settings for openshift project.
 import imp, os
 
+
 # a setting to determine whether we are running on OpenShift
 ON_OPENSHIFT = False
 if os.environ.has_key('OPENSHIFT_REPO_DIR'):

@@ -11,6 +11,7 @@ from django.template.loader import get_template
 from django.template import Context
 import uuid
 from customfunctions import *
+from django.contrib.sites.models import Site
 
 def get_user_from_session(session_key):
   #Thanks to http://scottbarnham.com/blog/2008/12/04/get-user-from-session-key-in-django/
@@ -39,9 +40,9 @@ def invite_event_email(usr_profile, email_add, event):
   invite.save()
   invite_link='/'.join([str(invite.invite_date),str(invite_id),])
   htmly     = get_template('registration/new_user.html')
-  d = Context({ 'usr_profile': usr_profile , 'uuid': invite_link})
+  d = Context({ 'usr_profile': usr_profile , 'uuid': invite_link, 'site':Site.objects.get_current().domain})
   subject= ''.join(['[MeetApp] An invite from ', usr_profile.user.get_full_name(),])
-  from_email, to = 'technical@icradio.com', email_add
+  from_email, to = 'joe.letts@me.com', email_add
   text_content = plaintext.render(d)
   html_content = htmly.render(d)
   msg = EmailMultiAlternatives(subject, text_content, from_email, [to])

@@ -92,7 +92,7 @@ def profile_events(request, slug):
 
 def dashboard(request):
 
-  user_profile, created =UserProfile.objects.get_or_create(user=request.user.get_profile())
+  user_profile, created =UserProfile.objects.get_or_create(user=request.user)
   events=Event.objects.filter(attendee__usr_profile=user_profile)
   if (events):
     return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )

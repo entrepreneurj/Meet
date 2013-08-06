@@ -1,7 +1,8 @@
 from django.db import models
 from django import forms
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_init
 from django.contrib.auth.models import User
+from customfunctions import get_timestamp_from_datetime,get_timestamp_from_unix_timestamp , get_current_timestamp #importing custom functions under site dir
 import datetime
 from django.utils import timezone
 from gettext import gettext as _
@@ -180,3 +181,22 @@ class Relationship(models.Model):
      unique_together =('usr_profile','friend',)
   def __unicode__(self):
         return ' - '.join([str(self.usr_profile),str(self.friend), self.relationship])
+
+class UserInvite(models.Model):
+  request_id=models.CharField(max_length=40, unique=True)
+  first_name=models.CharField(max_length=30, blank=True)
+  last_name=models.CharField(max_length=30, blank=True)
+  email_address=models.CharField(max_length=30, blank=True)
+  invite_date=models.PositiveIntegerField(blank=True)
+  invited_by=models.ForeignKey(UserProfile, blank=True)
+  event_invite=models.ForeignKey(Event, blank=True)
+  completed=models.BooleanField(default=False)
+
+  def __unicode__(self):
+    return ' - '.join([self.request_id, self.email_address])
+
+def UserInviteInit(sender, instance,  **kwargs):
+  instance.invite_date=get_current_timestamp()
+
+
+post_init.connect(UserInviteInit, sender=UserInvite)

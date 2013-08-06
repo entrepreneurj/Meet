@@ -10,6 +10,7 @@ admin.site.register(Attendee)
 admin.site.register(Message)
 admin.site.register(Event_Action)
 admin.site.register(Relationship)
+admin.site.register(UserInvite)
 
 
 class UserProfileInline(admin.StackedInline):

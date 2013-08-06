@@ -2,6 +2,8 @@
 
 {% block head2 %}
 <script src="{{ STATIC_URL }}js/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">var event_id="{{ event.id }}";</script>
+<script src="{{ STATIC_URL }}js/json2.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}js/friends.js" type="text/javascript"></script>
 {% endblock %}
 
@@ -55,12 +57,19 @@
         </div>
         <div class="modal-body">
           <div id="friend-list">
-
+          </div>
+          <hr>
+          <div id="new_friend">
+            <div class="input-append">
+            <input type="text" class="span12" id="new-invitee" placeholder="invite.me@example.com"> <button id="new-invitee-btn" class="btn" type="button" id="btn-new-invitee">Send invite</button>
+          </div>
+          <span class="help-block">Separate email addresses with semicolons</span>
+         
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-          <button class="btn btn-primary"><i class="icon-envelope icon-white"></i> Invite</button>
+          <button id="invite-button" data-dismiss="modal" class="btn btn-primary"><i class="icon-envelope icon-white"></i> Invite</button>
         </div>
       </div>
       {% endif %}
@@ -102,7 +111,6 @@
 
           </div>
           <div class="tab-pane" id="tab2">
-            <p>Howdy, I'm in Section 2.</p>
 
             {% for attendee in event.attendee_set.all %}
             <div class="attendee">

@@ -4,5 +4,14 @@
 <br<br><br><br><br>
 <h1>Welcome to MeetApp</h1>
 
-<p>MeetApp is an exciting new web application by a young graduate planner over the course of one Summer</p>
+<p>MeetApp is an exciting new web application that will help you keep track of your social life!</p>
+{% if user.is_authenticated  %}
+{% else %}
+<br>
+<div class="hero-unit">
+  <h1>Sign up today!</h1>
+  <p>This website is currently undergoing alpha testing, but you can quickly <a href="{% url registration_register %}">sign up</a> to take part!</p>
+{% endif %}
+
+
 {% endblock %}

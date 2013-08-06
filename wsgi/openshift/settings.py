@@ -18,16 +18,17 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 MANAGERS = ADMINS
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_HOST='mail.icradio.com'
 #EMAIL_PORT='25'
 #EMAIL_HOST_USER='technical@icradio.com'
 #EMAIL_HOST_PASSWORD='mArc0n1'
 #EMAIL_USE_TLS = True
 EMAIL_HOST='email-smtp.us-east-1.amazonaws.com'
-EMAIL_PORT='25'
-EMAIL_HOST_USER='AKIAIKVHGHCGCO53L4JQ'
-EMAIL_HOST_PASSWORD='AplYhjiiA1r5DsPixVRnG5rUsqK+1D6AFXTrS54wy53L'
+EMAIL_PORT='587'
+EMAIL_HOST_USER='AKIAIKPXJWG7YUJ5HZMQ'
+EMAIL_HOST_PASSWORD='AnN0in+WN8YD5sITCbzxs2SGu3iGiWa1WO9XC4Pqx3EV'
+DEFAULT_FROM_EMAIL='joe.letts@me.com'
 EMAIL_USE_TLS = True
 if ON_OPENSHIFT:
     # os.environ['OPENSHIFT_MYSQL_DB_*'] variables can be used with databases created
@@ -62,6 +63,9 @@ else:
 
 AUTH_PROFILE_MODULE = 'meet.UserProfile'
 USE_TZ = True 
+ACCOUNT_ACTIVATION_DAYS=2
+
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -69,7 +73,7 @@ USE_TZ = True
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html

@@ -1,0 +1,4 @@
+Hi!
+{{ usr_profile.user.get_full_name }} has invited you to an event on MeetApp. If you'd like to accept the invitation take 1 minute to sign up to our website!
+                     Sign up to MeetApp using the link below:
+                     /invite/{{ uuid }}

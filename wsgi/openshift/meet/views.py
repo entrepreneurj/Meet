@@ -11,6 +11,9 @@ from meet.admin import UserProfileAdmin
 from pprint import pprint
 from django.utils import timezone
 from django.contrib import messages
+from datetime import datetime
+from django.contrib.auth import authenticate, login
+from api.views import event_invite
 
 def home(request):
     #return render_to_response('home/home.html')
@@ -89,7 +92,7 @@ def profile_events(request, slug):
 
 def dashboard(request):
 
-  user_profile = request.user.get_profile()
+  user_profile, created =UserProfile.objects.get_or_create(user=request.user.get_profile())
   events=Event.objects.filter(attendee__usr_profile=user_profile)
   if (events):
     return render_to_response('dashboard.html', {'events':events, }, context_instance=RequestContext(request) )
@@ -104,8 +107,41 @@ def friends(request, slug):
   friends=usr_profile.get_friends()
 
   return render_to_response('friends.html', {'friends':friends, 'user':user }, context_instance=RequestContext(request) )
+### User ###
 
 
+def user_invite(request,timestamp,request_id):
+    if (request.POST):
+        uf = UserRegistrationForm(request.POST, error_class=DivErrorList)
+        if uf.is_valid():
+            user = uf.save(commit=False)
+            user.set_password(request.POST.get('password1',''))
+            user.save()
+            user=authenticate(username=uf.data['username'],password=request.POST.get('password1',''))
+            invites=UserInvite.objects.filter(email_address=request.POST.get('email',''))
+            for inv in invites:
+                if inv.event_invite:
+                    event_invite(user.username, inv.event_invite)
+                if inv.invited_by:
+                    pass
+                    #insert friend request from user        
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            print "error", uf.errors, uf;
+            return render_to_response('user_signup_invite.html',{
+                'form':uf}, context_instance=RequestContext(request) )
+    invite_date=datetime.fromtimestamp(float(timestamp))
+    invite=UserInvite.objects.filter(request_id=request_id, invite_date=timestamp)
+    print invite;
+    if (invite):
+        u=UserRegistrationForm(initial={'email':invite[0].email_address,
+            'first_name': invite[0].first_name, 'last_name':invite[0].last_name})
+        return render_to_response('user_signup_invite.html',{'invite':invite, 'form':u}, context_instance=RequestContext(request) )
+    else:
+        return redirect("home")
+
+### Events ###
 def create_event(request):
   if (request.POST):
     f=EventForm(request.POST)

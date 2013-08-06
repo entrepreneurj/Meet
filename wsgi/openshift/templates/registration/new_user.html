@@ -1,0 +1,22 @@
+<html>
+  <body style="background-color:rgb(0,136,204)">
+    <h3 style="text-align:center; color:white">MeetApp</h3>
+        <div style="width:100%;">
+          <div style="width:90%; margin-left:auto; margin-right:auto;">
+          <p style="color:white;">Hi! </p>
+          <p style="color:white;"><b>{{ usr_profile.user.get_full_name }}</b> has invited you to an event on MeetApp. If you'd like to accept the invitation take 1 minute to sign up to our website!
+          </p>
+          <br>
+          <a style="color:white; text-align:center;" href="http://127.0.0.1:8000/invite/{{ uuid }}">Sign up to MeetApp</a>
+
+          <br><br><br><br>
+          <footer>
+          <p style="color:white; font-size:80%;">This is a footer. Check it out</p>
+          </footer>
+          </div>
+        </div>
+
+  </body>
+
+
+</html>

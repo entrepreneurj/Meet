@@ -119,12 +119,15 @@ def user_invite(request,timestamp,request_id):
             user.save()
             user=authenticate(username=uf.data['username'],password=request.POST.get('password1',''))
             invites=UserInvite.objects.filter(email_address=request.POST.get('email',''))
+            
             for inv in invites:
                 if inv.event_invite:
                     event_invite(user.username, inv.event_invite)
                 if inv.invited_by:
                     pass
-                    #insert friend request from user        
+                    #insert friend request from user
+                inv.completed=True
+                inv.save()
             login(request, user)
             return redirect('dashboard')
         else:
@@ -132,7 +135,7 @@ def user_invite(request,timestamp,request_id):
             return render_to_response('user_signup_invite.html',{
                 'form':uf}, context_instance=RequestContext(request) )
     invite_date=datetime.fromtimestamp(float(timestamp))
-    invite=UserInvite.objects.filter(request_id=request_id, invite_date=timestamp)
+    invite=UserInvite.objects.filter(request_id=request_id, invite_date=timestamp, completed=False)
     print invite;
     if (invite):
         u=UserRegistrationForm(initial={'email':invite[0].email_address,

@@ -14,6 +14,7 @@ $.ajaxSetup({
 
 $(document).ready(function() {
   // Handler for .ready() called.
+  $('#new-invitee').tagsInput();
   $.post("/api/friends/", { action: "friends", event_id:event_id }, null, "json")
   .done(function(data) {
     friend_list=data;
@@ -43,11 +44,12 @@ $(document).ready(function() {
   $("#new-invitee-btn").click(function() {
     emails=$("#new-invitee").val();
     console.log(emails);
-    email_list=emails.split(';');
+    email_list=emails.split(',');
     $.post("/api/invite/", { action:"user-invite", event_id:event_id, email_list:JSON.stringify(email_list) }, null, "json")
     .done(function(data) {
       console.log(data);
-      $("#new-invitee").val("");
+     // $("#new-invitee").val("");
+     $('#new-invitee').importTags('');
     });
   });
 

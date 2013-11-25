@@ -5,6 +5,8 @@
 <script type="text/javascript">var event_id="{{ event.id }}";</script>
 <script src="{{ STATIC_URL }}js/json2.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}js/friends.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.tagsinput.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery.tagsinput.css" />
 {% endblock %}
 
 
@@ -37,7 +39,8 @@
       </div> <!-- /row-fluid -->
       {% if personal_att %}
       <div class="personal">
-        <p class="inline">I have:</p><div class="btn-group"><button class="btn btn-default">{{ personal_att.get_attending_display }}</button>
+        <p class="inline">I have:</p><div class="
+          tn-group"><button class="btn btn-default">{{ personal_att.get_attending_display }}</button>
           <button class="btn dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
@@ -61,7 +64,7 @@
           <hr>
           <div id="new_friend">
             <div class="input-append">
-            <input type="text" class="span12" id="new-invitee" placeholder="invite.me@example.com"> <button id="new-invitee-btn" class="btn" type="button" id="btn-new-invitee">Send invite</button>
+            <input type="text" class="span12" id="new-invitee" placeholder="invite.me@example.com" > <button id="new-invitee-btn" class="btn" type="button" id="btn-new-invitee">Send invite</button>
           </div>
           <span class="help-block">Separate email addresses with semicolons</span>
          
